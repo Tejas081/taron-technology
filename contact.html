@@ -604,7 +604,6 @@ function hideBanners() {
 $('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Run all validations (use & not && so all show at once)
     const ok = valName() & valPhone() & valEmail() & valMsg();
     if (!ok) return;
 
@@ -613,28 +612,33 @@ $('contactForm').addEventListener('submit', async function(e) {
     btn.textContent = 'TRANSMITTING...';
     showBanner('alertSending');
 
-    const formData = new FormData();
-    formData.append('fullName',      fullName.value.trim());
-    formData.append('contactNumber', contactNumber.value.trim());
-    formData.append('email',         email.value.trim());
-    formData.append('message',       message.value.trim());
-
     try {
-        // POST to PHP backend (same folder)
-        const res  = await fetch('send_mail.php', { method: 'POST', body: formData });
-        const data = await res.json();
 
-        if (data.success) {
-            showBanner('alertSuccess', '✓ ' + data.message);
+        const response = await fetch('/api/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: fullName.value.trim(),
+                email: email.value.trim(),
+                message: message.value.trim(),
+                contactNumber: contactNumber.value.trim()
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showBanner('alertSuccess', '✓ Enquiry submitted successfully.');
             $('contactForm').reset();
-            $('alertSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setTimeout(hideBanners, 7000);
+            setTimeout(hideBanners, 6000);
         } else {
-            showBanner('alertError', '✕ ' + (data.message || 'Transmission failed. Please try again.'));
+            showBanner('alertError', '✕ Submission failed.');
         }
 
-    } catch (err) {
-        showBanner('alertError', '✕ NETWORK ERROR. Please check your connection or contact us directly.');
+    } catch (error) {
+        showBanner('alertError', '✕ Server error. Please try again.');
     } finally {
         btn.disabled = false;
         btn.textContent = 'SEND MESSAGE';
