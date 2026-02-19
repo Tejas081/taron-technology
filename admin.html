@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Taron Enquiry Dashboard</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111;
+    }
+
+    th, td {
+      padding: 15px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+
+    th {
+      background: #1a1a1a;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background: #1f1f1f;
+    }
+
+    .no-data {
+      text-align: center;
+      margin-top: 50px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<h1>TARON TECHNOLOGY – ENQUIRY DASHBOARD</h1>
+
+<table id="dataTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Message</th>
+      <th>Submitted At</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="no-data" id="noData" style="display:none;">
+  No enquiries yet.
+</div>
+
+<script>
+async function loadData() {
+  try {
+    const res = await fetch('/api/getEnquiries');
+    const data = await res.json();
+
+    const tbody = document.querySelector('#dataTable tbody');
+    const noData = document.getElementById('noData');
+
+    if (data.length === 0) {
+      noData.style.display = 'block';
+      return;
+    }
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+
+      const date = new Date(item.createdAt).toLocaleString();
+
+      row.innerHTML = `
+        <td>${item.name || '-'}</td>
+        <td>${item.email || '-'}</td>
+        <td>${item.message || '-'}</td>
+        <td>${date}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+
+  } catch (error) {
+    alert("Error loading data");
+  }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
