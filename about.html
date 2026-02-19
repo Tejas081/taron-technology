@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Taron Technology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & BASE VARIABLES
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --void: #000000;
+            --pearl: #ffffff;
+            --steel: #1a1a1a;
+            --mist: #808080;
+            --silver: #c0c0c0;
+            --accent: #ffffff;
+            --gold: #ffffff;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--void);
+            color: var(--pearl);
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           LOGO - TOP LEFT CORNER
+        ======================================== */
+        .logo-container {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+            transition: all 0.3s ease;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .logo-img:hover {
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+            transform: scale(1.05);
+        }
+
+        /* ========================================
+           NAVIGATION - TOP RIGHT MENU
+        ======================================== */
+        nav {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+            padding: 15px 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            user-select: none;
+            z-index: 2001;
+            position: relative;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+        }
+
+        .menu-toggle.active {
+            background: var(--accent);
+            color: var(--void);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 350px;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            transition: right 0.4s ease;
+            border-left: 1px solid rgba(255,255,255,0.2);
+            z-index: 2000;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: var(--pearl);
+            text-decoration: none;
+            font-size: 18px;
+            letter-spacing: 3px;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-menu a::before {
+            content: '>';
+            position: absolute;
+            left: -25px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--accent);
+        }
+
+        .nav-menu a:hover::before {
+            opacity: 1;
+            left: -20px;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent);
+            transform: translateX(10px);
+        }
+
+        /* ========================================
+           HERO SECTION
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            padding: 0 5%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #c0c0c0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--silver);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ========================================
+           TEAM SECTION
+        ======================================== */
+        .team-section {
+            padding: 120px 5% 160px;
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ── Giant "OUR TEAM" background watermark ── */
+        .team-section-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(80px, 14vw, 200px);
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            /* blend into the void – cards sit on top */
+            color: rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+            line-height: 1;
+        }
+
+        /* floating blobs */
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .team-section::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33%  { transform: translate(30px, -30px) rotate(5deg); }
+            66%  { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        /* ── Section header ── */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #ffffff 0%, #808080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--mist);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── Animation stage (single card spotlight) ── */
+        .team-stage {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            margin-bottom: 60px;
+        }
+
+        /* all cards hidden off-screen by default */
+        .team-member {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 320px;
+            flex-shrink: 0;
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transition: box-shadow 0.4s ease;
+        }
+
+        /* === CARD COLOR PALETTE (10 cards) === */
+        .team-member:nth-child(1)  { --card-color: #ff6b9d; }
+        .team-member:nth-child(2)  { --card-color: #7c3aed; }
+        .team-member:nth-child(3)  { --card-color: #10b981; }
+        .team-member:nth-child(4)  { --card-color: #fbbf24; }
+        .team-member:nth-child(5)  { --card-color: #38bdf8; }
+        .team-member:nth-child(6)  { --card-color: #f97316; }
+        .team-member:nth-child(7)  { --card-color: #a78bfa; }
+        .team-member:nth-child(8)  { --card-color: #34d399; }
+        .team-member:nth-child(9)  { --card-color: #fb7185; }
+        .team-member:nth-child(10) { --card-color: #22d3ee; }
+
+        /* stage: spotlight glow */
+        .team-member.spotlight {
+            border-color: var(--card-color);
+            box-shadow: 0 0 60px color-mix(in srgb, var(--card-color) 30%, transparent);
+        }
+
+        /* ENTER: slide in from right */
+        @keyframes enterRight {
+            0%   { transform: translateX(120%) scale(0.75) rotate(8deg); opacity: 0; }
+            60%  { transform: translateX(-6%) scale(1.05) rotate(-2deg); opacity: 1; }
+            80%  { transform: translateX(2%) scale(0.98) rotate(0.5deg); opacity: 1; }
+            100% { transform: translateX(0) scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* EXIT: slide out to left */
+        @keyframes exitLeft {
+            0%   { transform: translateX(0) scale(1) rotate(0deg); opacity: 1; }
+            40%  { transform: translateX(4%) scale(1.03) rotate(1deg); opacity: 1; }
+            100% { transform: translateX(-120%) scale(0.75) rotate(-8deg); opacity: 0; }
+        }
+
+        .team-member.entering {
+            animation: enterRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            pointer-events: auto;
+        }
+
+        .team-member.exiting {
+            animation: exitLeft 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+        }
+
+        /* ── Dot indicators ── */
+        .dot-nav {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dot-nav span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot-nav span.active-dot {
+            background: var(--pearl);
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* ── Grid (final state after animation) ── */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .team-grid.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .team-grid .team-card-static {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+        }
+
+        /* card accent colours in grid */
+        .team-grid .team-card-static:nth-child(1)  { --card-color: #ff6b9d; }
+        .team-grid .team-card-static:nth-child(2)  { --card-color: #7c3aed; }
+        .team-grid .team-card-static:nth-child(3)  { --card-color: #10b981; }
+        .team-grid .team-card-static:nth-child(4)  { --card-color: #fbbf24; }
+        .team-grid .team-card-static:nth-child(5)  { --card-color: #38bdf8; }
+        .team-grid .team-card-static:nth-child(6)  { --card-color: #f97316; }
+        .team-grid .team-card-static:nth-child(7)  { --card-color: #a78bfa; }
+        .team-grid .team-card-static:nth-child(8)  { --card-color: #34d399; }
+        .team-grid .team-card-static:nth-child(9)  { --card-color: #fb7185; }
+        .team-grid .team-card-static:nth-child(10) { --card-color: #22d3ee; }
+
+        .team-grid .team-card-static:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--card-color);
+            box-shadow: 0 20px 50px color-mix(in srgb, var(--card-color) 25%, transparent);
+        }
+
+        /* ── Avatar ── */
+        .team-avatar {
+            width: 100px;
+            height: 130px;
+            border-radius: 12px;
+            margin: 0 auto 1.2rem;
+            border: 2px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                color-mix(in srgb, var(--card-color) 60%, #000),
+                color-mix(in srgb, var(--card-color) 30%, #000)
+            );
+        }
+
+        /* larger avatar in the stage */
+        .team-member .team-avatar {
+            width: 140px;
+            height: 180px;
+            font-size: 5rem;
+        }
+
+        .team-member h3,
+        .team-card-static h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            color: var(--pearl);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .team-member .team-avatar { margin-bottom: 1.5rem; }
+        .team-member h3 { font-size: 1.5rem; }
+
+        .team-role {
+            font-size: 0.78rem;
+            color: var(--card-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .team-bio {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--silver);
+        }
+
+        /* ── Scroll animations ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        footer {
+            padding: 3rem 5%;
+            background: var(--steel);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        footer p {
+            color: var(--mist);
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .team-stage { height: 420px; }
+            .team-member { width: 290px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.8rem; }
+            .hero p  { font-size: 1rem; }
+            .team-member { width: 270px; }
+        }
+        .team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <div class="logo-container">
+        <img src="images/TARON Logo.png" alt="Taron Technology Logo" class="logo-img">
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="menu-toggle" id="menuToggle">MENU</div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div id="particles-js" class="particles"></div>
+        <div class="hero-content">
+            <h1>About Taron Technology</h1>
+            <p>Taron Technology is a technology and digital solutions company delivering smart, reliable, and future-ready services for businesses and students. We specialise in web and application development, software solutions, digital marketing, and technical training programs.</p>
+        </div>
+    </section>
+
+    <!-- ==================== TEAM SECTION ==================== -->
+    <section class="team-section" id="teamSection">
+
+        <!-- Watermark background text -->
+        <div class="team-section-bg-text" aria-hidden="true">Our Team</div>
+
+        <!-- Heading -->
+        <div class="section-header fade-in">
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-subtitle">Passionate technologists, creative thinkers, and problem solvers dedicated to delivering exceptional results.</p>
+        </div>
+
+        <!-- ── Stage: sequential spotlight animation ── -->
+        <div class="team-stage" id="teamStage">
+
+            <div class="team-member" data-idx="0">
+                <div class="team-avatar">
+                    <img src="images/tejas.jpeg" alt="Tejas Shelke">
+                </div>
+                <h3>Tejas Shelke</h3>
+                <div class="team-role">Founder &amp; CEO</div>
+                <p class="team-bio">Drives vision, innovation, and strategic growth. Focused on building scalable technology solutions and long-term business impact.</p>
+            </div>
+
+            <div class="team-member" data-idx="1">
+                <div class="team-avatar">
+                     <img src="images/rajpotdar.jpeg" alt="Raj">
+                </div>
+                <h3>Raj Potdar</h3>
+                <div class="team-role">CTO</div>
+                <p class="team-bio">Leads technology strategy, system architecture, and innovation. Ensures scalable, secure, and future-ready technical solutions.</p>
+            </div>
+
+            <div class="team-member" data-idx="2">
+                <div class="team-avatar">
+                     <img src="images/priti.jpeg" alt="priti">
+                </div>
+                <h3>Priti Patil</h3>
+                <div class="team-role">HR Manager</div>
+                <p class="team-bio">Builds strong teams and culture through talent management, engagement, and people-first processes.</p>
+            </div>
+
+            <div class="team-member" data-idx="3">
+                 <div class="team-avatar">
+                     <img src="images/pooja.jpeg" alt="pooja">
+                </div>
+                <h3>Pooja Chavan</h3>
+                <div class="team-role">Data Analyst</div>
+                <p class="team-bio">Converts complex data into clear insights that power smarter decisions and performance optimization.</p>
+            </div>
+
+            <div class="team-member" data-idx="4">
+                 <div class="team-avatar">
+                     <img src="images/nandan.jpeg" alt="nandan">
+                </div>
+                <h3>Nandan</h3>
+                <div class="team-role">Marketing Manager</div>
+                <p class="team-bio">Drives brand growth, digital campaigns, and market strategy to expand reach and customer engagement.</p>
+            </div>
+
+            <div class="team-member" data-idx="5">
+                <div class="team-avatar">
+                    <img src="images/dikshant.jpeg" alt="Dikshant">
+                </div>
+                <h3>Dikshant</h3>
+                <div class="team-role">Team Leader</div>
+                <p class="team-bio">Ensures smooth execution, team coordination, and high-quality delivery across projects.</p>
+            </div>
+
+            <div class="team-member" data-idx="6">
+                <div class="team-avatar">
+                    <img src="images/sejal.jpeg" alt="sejal">
+                </div>
+                <h3>Sejal Sonawane</h3>
+                <div class="team-role">Backend Developer</div>
+                <p class="team-bio">Designs robust backend systems and APIs focused on scalability, security, and performance.</p>
+            </div>
+
+            <div class="team-member" data-idx="7">
+                 <div class="team-avatar">
+                    <img src="images/unnati.jpeg" alt="unnati">
+                </div>
+                <h3>Unnati Salunke</h3>
+                <div class="team-role">Frontend Developer</div>
+                <p class="team-bio">Crafts responsive, intuitive user interfaces that blend performance with modern design.</p>
+            </div>
+
+            <div class="team-member" data-idx="8">
+                <div class="team-avatar">
+                     <img src="images/minakshi.jpeg" alt="minakshi">
+                </div>
+                <h3>Minakshi Kasav</h3>
+                <div class="team-role">Electronic Engineer</div>
+                <p class="team-bio">Works on hardware design, system integration, and technical problem-solving solutions.</p>
+            </div>
+
+            <div class="team-member" data-idx="9">
+                <div class="team-avatar">
+                    <img src="images/vivek.png" alt="vivek">
+                </div>
+                <h3>Vivek</h3>
+                <div class="team-role">Electronic Engineer (Team Lead)</div>
+                <p class="team-bio">Leads hardware projects, oversees technical execution, and mentors engineering teams.</p>
+            </div>
+
+        </div><!-- /teamStage -->
+
+        <!-- Dot navigation -->
+        <div class="dot-nav" id="dotNav">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- ── Grid (shown after spotlight cycle completes) ── -->
+        <div class="team-grid" id="teamGrid">
+            <div class="team-card-static">
+                <div class="team-avatar">
+                    <img src="images/tejas.jpeg" alt="Tejas Shelke">
+                </div>
+                <h3>Tejas Shelke</h3>
+                <div class="team-role">Founder &amp; CEO</div>
+                <p class="team-bio">Drives vision, innovation, and strategic growth. Focused on building scalable technology solutions and long-term business impact.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                     <img src="images/rajpotdar.jpeg" alt="Raj">
+                </div>
+                <h3>Raj Potdar</h3>
+                <div class="team-role">CTO</div>
+                <p class="team-bio">Leads technology strategy, system architecture, and innovation. Ensures scalable, secure, and future-ready technical solutions.</p>
+            </div>
+            <div class="team-card-static">
+                  <div class="team-avatar">
+                     <img src="images/priti.jpeg" alt="priti">
+                </div>
+                <h3>Priti Patil</h3>
+                <div class="team-role">HR Manager</div>
+                <p class="team-bio">Builds strong teams and culture through talent management, engagement, and people-first processes.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                     <img src="images/pooja.jpeg" alt="pooja">
+                </div>
+                <h3>Pooja Chavan</h3>
+                <div class="team-role">Data Analyst</div>
+                <p class="team-bio">Converts complex data into clear insights that power smarter decisions and performance optimization.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                     <img src="images/nandan.jpeg" alt="nandan">
+                </div>
+                <h3>Nandan</h3>
+                <div class="team-role">Marketing Manager</div>
+                <p class="team-bio">Drives brand growth, digital campaigns, and market strategy to expand reach and customer engagement.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                    <img src="images/dikshant.jpeg" alt="Dikshant">
+                </div>
+                <h3>Dikshant Sawant</h3>
+                <div class="team-role">IT Engineer<br>(Team Leader)</div>
+                <p class="team-bio">Ensures smooth execution, team coordination, and high-quality delivery across projects.</p>
+            </div>
+            <div class="team-card-static">
+                 <div class="team-avatar">
+                    <img src="images/sejal.jpeg" alt="sejal">
+                </div>
+                <h3>Sejal Sonawane</h3>
+                <div class="team-role">Backend Developer</div>
+                <p class="team-bio">Designs robust backend systems and APIs focused on scalability, security, and performance.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                    <img src="images/unnati.jpeg" alt="unnati">
+                </div>
+                <h3>Unnati Salunke</h3>
+                <div class="team-role">Frontend Developer</div>
+                <p class="team-bio">Crafts responsive, intuitive user interfaces that blend performance with modern design.</p>
+            </div>
+            <div class="team-card-static">
+                <div class="team-avatar">
+                     <img src="images/minakshi.jpeg" alt="minakshi">
+                </div>
+                <h3>Minakshi Kasav</h3>
+                <div class="team-role">Electronic Engineer</div>
+                <p class="team-bio">Works on hardware design, system integration, and technical problem-solving solutions.</p>
+            </div>
+            <div class="team-card-static">
+               <div class="team-avatar">
+                    <img src="images/vivek.png" alt="vivek">
+                </div>
+                <h3>Vivek</h3>
+                <div class="team-role">Electronic Engineer<br> (Team Lead)</div>
+                <p class="team-bio">Leads hardware projects, oversees technical execution, and mentors engineering teams.</p>
+            </div>
+        </div><!-- /teamGrid -->
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Taron Technology. All rights reserved. | Innovating the Future</p>
+    </footer>
+
+    <!-- Particles.js -->
+    <script src="js/particles.min.js"></script>
+
+    <script>
+    // ========================================
+    // MENU TOGGLE
+    // ========================================
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu    = document.getElementById('navMenu');
+    let menuJustOpened = false;
+
+    menuToggle.addEventListener('click', function () {
+        menuJustOpened = true;
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        setTimeout(() => { menuJustOpened = false; }, 0);
+    });
+
+    document.addEventListener('click', function (e) {
+        if (menuJustOpened) return;
+        if (!navMenu.contains(e.target)) {
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+    });
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+        });
+    });
+
+    // ========================================
+    // PARTICLES
+    // ========================================
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true, distance: 150, color: '#ffffff', opacity: 0.2, width: 1
+                },
+                move: {
+                    enable: true, speed: 2, direction: 'none', random: false,
+                    straight: false, out_mode: 'out', bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.5 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+    }
+
+    // ========================================
+    // SCROLL ANIMATIONS
+    // ========================================
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => scrollObserver.observe(el));
+
+    // ========================================
+    // TEAM CARD SPOTLIGHT ANIMATION
+    // ========================================
+    const stageCards = document.querySelectorAll('#teamStage .team-member');
+    const dotNav     = document.getElementById('dotNav');
+    const dots       = dotNav.querySelectorAll('span');
+    const teamGrid   = document.getElementById('teamGrid');
+    const teamStage  = document.getElementById('teamStage');
+
+    const SHOW_DURATION = 1800;   // ms a card stays visible
+    const ENTER_DURATION = 900;   // ms for enter animation
+    const EXIT_DURATION  = 700;   // ms for exit animation
+
+    let currentIdx     = 0;
+    let animating      = false;
+    let cycleStarted   = false;
+    let autoTimer      = null;
+
+    function setDot(idx) {
+        dots.forEach((d, i) => d.classList.toggle('active-dot', i === idx));
+    }
+
+    function showCard(idx, skipEnter) {
+        const card = stageCards[idx];
+        card.classList.remove('exiting');
+        card.style.opacity = '';
+
+        if (skipEnter) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateX(0) scale(1) rotate(0deg)';
+        } else {
+            card.classList.add('entering', 'spotlight');
+        }
+
+        setDot(idx);
+
+        // remove entering class after animation ends
+        if (!skipEnter) {
+            setTimeout(() => card.classList.remove('entering'), ENTER_DURATION);
+        }
+    }
+
+    function hideCard(idx, callback) {
+        const card = stageCards[idx];
+        card.classList.remove('spotlight');
+        card.classList.add('exiting');
+        setTimeout(() => {
+            card.classList.remove('exiting');
+            card.style.opacity = '0';
+            card.style.transform = '';
+            callback && callback();
+        }, EXIT_DURATION);
+    }
+
+    function nextCard() {
+        if (animating) return;
+        animating = true;
+
+        const prevIdx = currentIdx;
+        currentIdx = (currentIdx + 1) % stageCards.length;
+
+        hideCard(prevIdx, () => {
+            showCard(currentIdx);
+            animating = false;
+        });
+    }
+
+    function goToCard(idx) {
+        if (animating || idx === currentIdx) return;
+        clearTimeout(autoTimer);
+        animating = true;
+
+        const prevIdx = currentIdx;
+        currentIdx = idx;
+
+        hideCard(prevIdx, () => {
+            showCard(currentIdx);
+            animating = false;
+            scheduleNext();
+        });
+    }
+
+    function scheduleNext() {
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(() => {
+            if (currentIdx === stageCards.length - 1) {
+                // last card — transition to grid
+                hideCard(currentIdx, () => {
+                    finishToGrid();
+                });
+            } else {
+                nextCard();
+                scheduleNext();
+            }
+        }, SHOW_DURATION);
+    }
+
+    function finishToGrid() {
+        // hide stage + dots, show grid
+        teamStage.style.transition = 'opacity 0.6s ease';
+        teamStage.style.opacity    = '0';
+        dotNav.style.transition    = 'opacity 0.6s ease';
+        dotNav.style.opacity       = '0';
+
+        setTimeout(() => {
+            teamStage.style.display = 'none';
+            dotNav.style.display    = 'none';
+            teamGrid.classList.add('visible');
+        }, 650);
+    }
+
+    function startCycle() {
+        if (cycleStarted) return;
+        cycleStarted = true;
+        showCard(0);
+        scheduleNext();
+    }
+
+    // dot click handlers
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goToCard(i)));
+
+    // start animation immediately when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        startCycle();
+    });
+
+    // smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+    </script>
+</body>
+</html>
