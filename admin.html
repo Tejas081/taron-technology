@@ -88,18 +88,32 @@ async function loadData() {
     alert("Error loading data");
   }
 }
-
 async function deleteItem(id) {
-  await fetch("/api/deleteEnquiry", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": adminPassword
-    },
-    body: JSON.stringify({ id })
-  });
+  const confirmDelete = confirm("Are you sure you want to delete this enquiry?");
+  if (!confirmDelete) return;
 
-  loadData();
+  try {
+    const res = await fetch("/api/deleteEnquiry", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": adminPassword
+      },
+      body: JSON.stringify({ id })
+    });
+
+    if (res.ok) {
+      // Remove row instantly without full reload
+      const button = event.target;
+      const row = button.closest("tr");
+      row.remove();
+    } else {
+      alert("Delete failed");
+    }
+
+  } catch (error) {
+    alert("Server error");
+  }
 }
 
 function exportCSV() {
