@@ -10,6 +10,10 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
+  if (req.method !== "DELETE") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
   try {
     if (!client) {
       client = new MongoClient(process.env.MONGO_URI);
@@ -19,12 +23,11 @@ export default async function handler(req, res) {
     const db = client.db("taronDB");
     const collection = db.collection("enquiries");
 
-    const data = await collection
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray();
+    const { id } = req.body;
 
-    res.status(200).json(data);
+    await collection.deleteOne({ _id: new ObjectId(id) });
+
+    res.status(200).json({ message: "Deleted successfully" });
 
   } catch (error) {
     res.status(500).json({ message: "Server error" });
