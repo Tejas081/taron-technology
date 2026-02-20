@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taron Technology - Future Forward</title>
+    <title>Taron Technology | Web Development & Software Solutions</title>
+    <meta name="description"
+        content="Taron Technology provides web development, application development, training programs and digital solutions for businesses and students.">
+
+    <meta name="keywords"
+        content="Web Development Company, App Development, Software Solutions, Training Institute, Taron Technology">
+
+    <meta name="author" content="Taron Technology">
+
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Taron Technology | Web Development & Software Solutions">
+    <meta property="og:description" content="Future Forward. Code Driven. Professional web and software solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tarontechnology.com">
+    <meta property="og:image" content="https://tarontechnology.com/images/TARON_LOGO_TRANSPARENT.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         /* ========================================
            RESET & BASE VARIABLES
@@ -43,12 +61,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-             background: radial-gradient(
-        circle at top left,
-        #ffffff,
-        #f5f5f5,
-        #ededed
-    );
+            background: radial-gradient(circle at top left,
+                    #ffffff,
+                    #f5f5f5,
+                    #ededed);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -79,10 +95,12 @@
                 opacity: 0;
                 filter: drop-shadow(0 0 0px rgba(184, 134, 11, 0));
             }
+
             50% {
                 transform: scale(1.1) rotate(5deg);
                 filter: drop-shadow(0 0 50px rgba(184, 134, 11, 0.8));
             }
+
             100% {
                 transform: scale(1) rotate(0deg);
                 opacity: 1;
@@ -91,14 +109,17 @@
         }
 
         .loader-logo {
-            animation: logoEntrance 2s ease-out forwards, 
-                       glowPulse 2s ease-in-out 2s infinite;
+            animation: logoEntrance 2s ease-out forwards,
+                glowPulse 2s ease-in-out 2s infinite;
         }
 
         @keyframes glowPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 filter: drop-shadow(0 0 30px rgba(184, 134, 11, 0.6));
             }
+
             50% {
                 filter: drop-shadow(0 0 60px rgba(184, 134, 11, 1));
             }
@@ -162,7 +183,11 @@
         }
 
         /* Ensure content is above particles */
-        nav, .hero, .logo-section, footer, .logo-container {
+        nav,
+        .hero,
+        .logo-section,
+        footer,
+        .logo-container {
             position: relative;
             z-index: 1;
         }
@@ -180,18 +205,25 @@
         .logo-img {
             height: 70px;
             width: auto;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
             transition: all 0.3s ease;
             animation: logoFloat 3s ease-in-out infinite;
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .logo-img:hover {
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
             transform: scale(1.05);
         }
 
@@ -207,7 +239,7 @@
 
         .menu-toggle {
             padding: 15px 30px;
-            background: transparent     ;
+            background: transparent;
             border: 2px solid var(--accent);
             border-radius: 25px;
             cursor: pointer;
@@ -223,9 +255,9 @@
         }
 
         .menu-toggle:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
         }
 
         .menu-toggle.active {
@@ -239,7 +271,7 @@
             right: -100%;
             width: 350px;
             height: 100vh;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
@@ -248,7 +280,7 @@
             gap: 40px;
             list-style: none;
             transition: right 0.4s ease;
-            border-left: 1px solid rgba(255,255,255,0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-menu.active {
@@ -307,7 +339,7 @@
             position: relative;
         }
 
-       /* .glitch-wrapper {
+        /* .glitch-wrapper {
             position: relative;
             display: inline-block;
         }
@@ -328,6 +360,7 @@
                 opacity: 0;
                 transform: scale(0.8);
             }
+
             100% {
                 opacity: 1;
                 transform: scale(1);
@@ -512,7 +545,7 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             animation: floatParticle 15s ease-in-out infinite;
         }
@@ -554,10 +587,13 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate(0, 0);
                 opacity: 0.4;
             }
+
             50% {
                 transform: translate(50px, -50px);
                 opacity: 1;
@@ -577,6 +613,7 @@
                 opacity: 0;
                 transform: scale(0.5);
             }
+
             100% {
                 opacity: 1;
                 transform: scale(1);
@@ -606,19 +643,21 @@
             stroke-linejoin: miter;
             stroke-dasharray: 1;
             stroke-dashoffset: 1;
-            
+
             /* Subtle glow effect */
             filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
-            
+
             /* Animation with better easing - starts immediately */
             animation: drawStar 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            animation-delay: 3s; /* Small delay so user sees it start */
+            animation-delay: 3s;
+            /* Small delay so user sees it start */
         }
 
         @keyframes drawStar {
             from {
                 stroke-dashoffset: 1;
             }
+
             to {
                 stroke-dashoffset: 0;
             }
@@ -628,17 +667,20 @@
             max-width: 500px;
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 0 40px rgba(255,255,255,0.3));
+            filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
             margin-bottom: 50px;
             animation: logoGlow 4s ease-in-out infinite;
         }
 
         @keyframes logoGlow {
-            0%, 100% {
-                filter: drop-shadow(0 0 40px rgba(255,255,255,0.3));
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
             }
+
             50% {
-                filter: drop-shadow(0 0 60px rgba(255,255,255,0.6));
+                filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.6));
             }
         }
 
@@ -678,9 +720,9 @@
         footer {
             background: transparent;
             padding: 80px 60px 40px;
-            border-top: 1px solid rgba(255,255,255,0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: none;
-}
+        }
 
         .footer-grid {
             display: grid;
@@ -747,7 +789,7 @@
         .footer-bottom {
             text-align: center;
             padding-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--mist);
             font-size: 12px;
             letter-spacing: 2px;
@@ -845,18 +887,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(255,255,255,0.02) 0px,
-                transparent 1px,
-                transparent 2px,
-                rgba(255,255,255,0.02) 3px
-            );
+            background: repeating-linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.02) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 3px);
             pointer-events: none;
             z-index: 9998;
         }
     </style>
 </head>
+
 <body>
     <!-- Premium Loading Animation -->
     <div class="loader-wrapper" id="loader">
@@ -912,7 +953,7 @@
             <div class="particle-dot"></div>
             <div class="particle-dot"></div>
         </div>
-        
+
         <div class="logo-reveal-container">
             <!-- Pentagram Animation Container -->
             <div class="pentagram-wrapper">
@@ -920,21 +961,17 @@
                     <defs>
                         <!-- Gold gradient for richer color -->
                         <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#FFF4D6"/>
-                            <stop offset="50%" stop-color="#FFD700"/>
-                            <stop offset="100%" stop-color="#B8860B"/>
+                            <stop offset="0%" stop-color="#FFF4D6" />
+                            <stop offset="50%" stop-color="#FFD700" />
+                            <stop offset="100%" stop-color="#B8860B" />
                         </linearGradient>
                     </defs>
 
                     <!-- Interlaced Pentagram -->
-                    <path
-                        id="starPath"
-                        pathLength="1"
-                        d="M50 4 L79 86 L6 32 L94 32 L21 86 Z"
-                    />
+                    <path id="starPath" pathLength="1" d="M50 4 L79 86 L6 32 L94 32 L21 86 Z" />
                 </svg>
             </div>
-            
+
             <div class="logo-text-premium">
                 <h2>TARON TECHNOLOGY</h2>
                 <p>Engineering Tomorrow</p>
@@ -981,7 +1018,7 @@
             <div class="footer-section">
                 <h3>CONNECT</h3>
                 <ul class="footer-links">
-                  <li><a href="mailto:tarontechnology@gmail.com.com">tarontechnology@gmail.com</a></li>
+                    <li><a href="mailto:tarontechnology@gmail.com.com">tarontechnology@gmail.com</a></li>
                     <li><a href="tel:+91 9130790105">+91 9130790105</a></li>
                     <li style="color: var(--silver); margin-top: 15px; font-size: 12px;">
                         OPERATIONAL HOURS<br>
@@ -997,16 +1034,17 @@
     </footer>
 
     <!-- JavaScript -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/particles.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="js/particles.min.js"></script>
     <script>
         // Premium Loader Animation
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const loader = document.getElementById('loader');
             // Wait for animation to complete (3.5 seconds total)
-            setTimeout(function() {
+            setTimeout(function () {
                 loader.classList.add('fade-out');
                 // Remove from DOM after fade out
-                setTimeout(function() {
+                setTimeout(function () {
                     loader.style.display = 'none';
                 }, 800);
             }, 3500);
@@ -1143,7 +1181,7 @@
 
         // Smooth Scrolling for anchor links only
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -1161,12 +1199,13 @@
         //     }
         // });
 
-         /* Console Easter Egg */
-    console.log('%c╔═══════════════════════════════════════╗', 'color:#00ff00;font-weight:bold');
-    console.log('%c║     TARON TECHNOLOGY SYSTEMS v1.0     ║', 'color:#00ff00;font-weight:bold');
-    console.log('%c║    FUTURE FORWARD. CODE DRIVEN.       ║',  'color:#00ff00;font-weight:bold');
-    console.log('%c╚═══════════════════════════════════════╝', 'color:#00ff00;font-weight:bold');
-</script>
+        /* Console Easter Egg */
+        console.log('%c╔═══════════════════════════════════════╗', 'color:#00ff00;font-weight:bold');
+        console.log('%c║     TARON TECHNOLOGY SYSTEMS v1.0     ║', 'color:#00ff00;font-weight:bold');
+        console.log('%c║    FUTURE FORWARD. CODE DRIVEN.       ║', 'color:#00ff00;font-weight:bold');
+        console.log('%c╚═══════════════════════════════════════╝', 'color:#00ff00;font-weight:bold');
+    </script>
 
 </body>
+
 </html>
