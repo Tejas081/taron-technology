@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Web Development Projects | Taron Technology</title>
+<meta name="description" content="Explore our completed and running web development projects.">
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    padding: 120px 40px;
+}
+
+.page-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 40px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    border: 1px solid #333;
+    padding: 30px;
+    background: #111;
+    transition: 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+}
+
+.project-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 10px;
+}
+
+.project-status {
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.project-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 20px;
+    border: 1px solid #fff;
+    text-decoration: none;
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Web Development Projects</h1>
+
+<div class="projects-grid">
+
+    <div class="project-card">
+        <h3>School Management System</h3>
+        <div class="project-status">COMPLETED</div>
+        <p>Full stack system built using Node.js and MongoDB.</p>
+        <a href="#" class="project-link">View Project</a>
+    </div>
+
+    <div class="project-card">
+        <h3>E-Commerce Website</h3>
+        <div class="project-status">RUNNING</div>
+        <p>Modern online store with payment integration.</p>
+        <a href="#" class="project-link">View Project</a>
+    </div>
+
+</div>
+
+</body>
+</html>
