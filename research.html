@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Papers | Taron Technology</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root { --void:#0B1220; --pearl:#ffffff; --mist:#808080; --silver:#c0c0c0; --accent:#2563EB; --gold:#00E5FF; --gold-dark:#7C3AED; }
+        body { font-family:'Inter',sans-serif; background:var(--void); color:var(--pearl); overflow-x:hidden; }
+        body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,rgba(255,255,255,0.02) 0px,transparent 1px,transparent 2px,rgba(255,255,255,0.02) 3px); pointer-events:none; z-index:9998; }
+        #particles-js { position:fixed; width:100%; height:100%; top:0; left:0; z-index:0; background-color:#0B1220; }
+        .loader-wrapper { position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(160deg,#FFFFFF 0%,#F3F7FF 45%,#EAF1FF 100%); display:flex; justify-content:center; align-items:center; z-index:10000; transition:transform 0.9s cubic-bezier(0.76,0,0.24,1),visibility 0.9s; }
+        .loader-wrapper.fade-out { transform:translateY(-100%); visibility:hidden; }
+        .loader-logo { width:220px; height:auto; animation:logoEntrance 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards,glowPulse 2s ease-in-out 2s infinite; filter:drop-shadow(0 0 30px rgba(124,58,237,0.6)); }
+        @keyframes logoEntrance { 0%{transform:scale(0.3) rotate(-15deg);opacity:0;} 100%{transform:scale(1) rotate(0deg);opacity:1;} }
+        @keyframes glowPulse { 0%,100%{filter:drop-shadow(0 0 30px rgba(124,58,237,0.6));} 50%{filter:drop-shadow(0 0 60px rgba(124,58,237,1));} }
+        .loader-text { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:800; letter-spacing:6px; margin-top:24px; background:linear-gradient(90deg,#7C3AED 0%,#00E5FF 50%,#7C3AED 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200% auto; animation:textFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards,shimmerGold 6s linear 2.5s infinite; opacity:0; transform:translateY(20px); }
+        @keyframes textFadeUp { to{opacity:1;transform:translateY(0);} }
+        @keyframes shimmerGold { to{background-position:200% center;} }
+        .logo-container { position:fixed; top:30px; left:30px; z-index:1000; }
+        .logo-img { height:70px; width:auto; filter:drop-shadow(0 0 10px rgba(255,255,255,0.3)); transition:all 0.3s ease; animation:logoFloat 5s ease-in-out infinite; }
+        @keyframes logoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-5px);} }
+        nav { position:fixed; top:30px; right:30px; z-index:1000; }
+        .menu-toggle { padding:15px 30px; background:transparent; border:2px solid var(--accent); border-radius:25px; cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; letter-spacing:3px; color:var(--accent); text-transform:uppercase; transition:all 0.3s ease; }
+        .menu-toggle:hover { background:rgba(255,255,255,0.1); }
+        .menu-toggle.active { background:var(--accent); color:var(--void); }
+        .nav-menu { position:fixed; top:0; right:-100%; width:350px; height:100vh; background:rgba(0,0,0,0.95); backdrop-filter:blur(20px); display:flex; flex-direction:column; justify-content:center; align-items:center; gap:40px; list-style:none; transition:right 0.4s ease; border-left:1px solid rgba(255,255,255,0.2); }
+        .nav-menu.active { right:0; }
+        .nav-menu a { color:var(--pearl); text-decoration:none; font-size:18px; letter-spacing:3px; position:relative; transition:all 0.3s ease; text-transform:uppercase; }
+        .nav-menu a::before { content:'>'; position:absolute; left:-25px; opacity:0; transition:all 0.3s ease; }
+        .nav-menu a:hover::before { opacity:1; left:-20px; }
+        .nav-menu a:hover { transform:translateX(10px); }
+        .nav-menu a.active-link { color:var(--gold); }
+        .page-content { position:relative; z-index:1; padding-top:140px; }
+        .page-hero { text-align:center; padding:60px 40px 80px; position:relative; }
+        .page-hero::before { content:'RESEARCH'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Space Grotesk',sans-serif; font-size:clamp(80px,18vw,200px); font-weight:800; color:rgba(255,255,255,0.03); pointer-events:none; white-space:nowrap; }
+        .page-tag { display:inline-block; font-size:12px; letter-spacing:4px; color:var(--gold); border:1px solid var(--gold-dark); padding:6px 20px; margin-bottom:24px; text-transform:uppercase; }
+        .page-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:800; letter-spacing:6px; text-transform:uppercase; margin-bottom:20px; background:linear-gradient(90deg,#fff 0%,#ccc 50%,#fff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200% auto; animation:shimmer 4s linear infinite; }
+        @keyframes shimmer { to{background-position:200% center;} }
+        .page-subtitle { font-size:14px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; }
+        .stats-strip { display:flex; background:rgba(255,255,255,0.08); margin:0 5%; border:1px solid rgba(255,255,255,0.08); }
+        .stat-box { flex:1; padding:24px 20px; text-align:center; background:var(--void); border-right:1px solid rgba(255,255,255,0.08); }
+        .stat-box:last-child { border-right:none; }
+        .stat-num { font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:800; color:var(--gold); }
+        .stat-lbl { font-size:10px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; margin-top:6px; }
+        .controls { display:flex; gap:16px; padding:40px 5% 20px; flex-wrap:wrap; }
+        .search-box { flex:1; min-width:220px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); color:var(--pearl); padding:12px 18px; font-family:'Inter',sans-serif; font-size:13px; letter-spacing:1px; outline:none; transition:border 0.3s; }
+        .search-box:focus { border-color:var(--gold); }
+        .search-box::placeholder { color:var(--mist); }
+        .filter-select { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); color:var(--pearl); padding:12px 16px; font-family:'Inter',sans-serif; font-size:12px; outline:none; cursor:pointer; }
+        .filter-select option { background:#0d0d0d; }
+        .papers-section { padding:20px 5% 80px; }
+        .papers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:2px; }
+        .paper-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:32px 28px; position:relative; transition:all 0.3s ease; overflow:hidden; }
+        .paper-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:linear-gradient(180deg,var(--gold),var(--gold-dark)); transform:scaleY(0); transition:transform 0.3s ease; transform-origin:bottom; }
+        .paper-card:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.2); transform:translateY(-4px); }
+        .paper-card:hover::before { transform:scaleY(1); }
+        .paper-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+        .badge { font-family:'Inter',sans-serif; font-size:10px; letter-spacing:2px; padding:4px 12px; text-transform:uppercase; border:1px solid; }
+        .badge-gold { border-color:var(--gold-dark); color:var(--gold); background:rgba(37,99,235,0.06); }
+        .badge-white { border-color:rgba(255,255,255,0.3); color:var(--silver); background:rgba(255,255,255,0.04); }
+        .badge-green { border-color:rgba(0,200,100,0.4); color:#4ade80; background:rgba(0,200,100,0.06); }
+        .badge-amber { border-color:rgba(251,191,36,0.4); color:#fbbf24; background:rgba(251,191,36,0.06); }
+        .badge-gray { border-color:rgba(255,255,255,0.15); color:var(--mist); background:rgba(255,255,255,0.02); }
+        .paper-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; letter-spacing:1px; line-height:1.5; color:var(--pearl); margin-bottom:10px; text-transform:uppercase; }
+        .paper-author { font-size:11px; letter-spacing:2px; color:var(--mist); margin-bottom:14px; text-transform:uppercase; }
+        .paper-abstract { font-size:13px; line-height:1.8; color:var(--silver); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+        .paper-keywords { display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
+        .keyword { font-size:10px; letter-spacing:1px; color:var(--mist); border:1px solid rgba(255,255,255,0.1); padding:3px 8px; }
+        .paper-actions { margin-top:20px; }
+        .btn-gold { padding:9px 20px; background:linear-gradient(90deg,var(--gold-dark),var(--gold)); border:none; color:var(--void); font-family:'Inter',sans-serif; font-size:10px; letter-spacing:2px; cursor:pointer; text-decoration:none; text-transform:uppercase; transition:all 0.3s ease; display:inline-block; }
+        .btn-gold:hover { opacity:0.85; }
+        .btn-gold.disabled { background:rgba(255,255,255,0.1); color:var(--mist); cursor:default; pointer-events:none; }
+        .empty-state { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--mist); }
+        .empty-state .e-icon { font-size:48px; margin-bottom:16px; }
+        .empty-state h3 { font-family:'Space Grotesk',sans-serif; font-size:18px; letter-spacing:3px; color:var(--silver); margin-bottom:10px; }
+        .loading-state { grid-column:1/-1; text-align:center; padding:80px 20px; }
+        .loading-text { font-family:'Space Grotesk',sans-serif; font-size:14px; letter-spacing:4px; color:var(--gold); animation:blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+        footer { background:transparent; padding:80px 60px 40px; border-top:1px solid rgba(255,255,255,0.3); position:relative; z-index:1; }
+        .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:60px; max-width:1400px; margin:0 auto 60px; }
+        .footer-section h3 { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700; margin-bottom:20px; color:var(--accent); letter-spacing:2px; }
+        .footer-links { list-style:none; }
+        .footer-links li { margin-bottom:12px; }
+        .footer-links a { color:var(--silver); text-decoration:none; font-size:13px; transition:all 0.3s ease; letter-spacing:1px; }
+        .footer-links a:hover { color:var(--accent); padding-left:10px; }
+        .social-links { display:flex; gap:16px; margin-top:20px; }
+        .social-icon { width:38px; height:38px; border:1px solid var(--accent); display:flex; align-items:center; justify-content:center; color:var(--accent); text-decoration:none; font-weight:bold; transition:all 0.3s ease; }
+        .social-icon:hover { background:var(--accent); color:var(--void); }
+        .footer-bottom { text-align:center; padding-top:40px; border-top:1px solid rgba(255,255,255,0.1); color:var(--mist); font-size:11px; letter-spacing:2px; }
+        @media (max-width:768px) { .logo-container{top:20px;left:20px;} .logo-img{height:50px;} nav{top:20px;right:20px;} .menu-toggle{padding:10px 20px;font-size:12px;} .nav-menu{width:100%;} .stats-strip{flex-direction:column;} .papers-grid{grid-template-columns:1fr;} footer{padding:60px 24px 30px;} .footer-grid{gap:36px;} }
+    
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="loader-wrapper" id="loader">
+    <div style="text-align:center;">
+        <img src="images/TARON_LOGO_TRANSPARENT.png" alt="Taron Technology" class="loader-logo">
+        <div class="loader-text">RESEARCH PAPERS</div>
+    </div>
+</div>
+<div id="particles-js"></div>
+<div class="logo-container"><a href="index.html"><img src="images/TARON Logo.png" alt="Taron Technology Logo" class="logo-img"></a></div>
+<nav>
+    <div class="menu-toggle" id="menuToggle">MENU</div>
+    <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="research.html" class="active-link">Research</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+<div class="page-content">
+    <div class="page-hero">
+        <div class="page-tag">// Academic Publications</div>
+        <h1 class="page-title">Research Papers</h1>
+        <p class="page-subtitle">Student Research &amp; Academic Excellence</p>
+    </div>
+    <div class="stats-strip">
+        <div class="stat-box"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Total Papers</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-published">—</div><div class="stat-lbl">Published</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-review">—</div><div class="stat-lbl">Under Review</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-cats">—</div><div class="stat-lbl">Domains</div></div>
+    </div>
+    <div class="controls">
+        <input type="text" class="search-box" id="paper-search" placeholder="[ SEARCH PAPERS, AUTHORS... ]" oninput="renderPapers()">
+        <select class="filter-select" id="paper-cat" onchange="renderPapers()"><option value="">ALL CATEGORIES</option></select>
+        <select class="filter-select" id="paper-year" onchange="renderPapers()"><option value="">ALL YEARS</option></select>
+        <select class="filter-select" id="paper-status" onchange="renderPapers()"><option value="">ALL STATUS</option><option value="Published">Published</option><option value="Under Review">Under Review</option><option value="Draft">Draft</option></select>
+    </div>
+    <div class="papers-section">
+        <div class="papers-grid" id="papers-grid">
+            <div class="loading-state"><div class="loading-text">LOADING PAPERS...</div></div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>TARON.SYS</h3>
+                <p style="color:var(--silver);line-height:1.8;margin-top:12px;font-size:13px;">Next-generation technology solutions architecting tomorrow's digital infrastructure today.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a><a href="#" class="social-icon">𝕏</a><a href="#" class="social-icon">in</a><a href="#" class="social-icon">ig</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>NAVIGATE</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About</a></li><li><a href="research.html">Research Papers</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>SERVICES</h3>
+                <ul class="footer-links">
+                    <li><a href="services.html#web">Web Development</a></li><li><a href="services.html#app">App Development</a></li><li><a href="services.html#training">Training Programs</a></li><li><a href="services.html#consulting">Consulting</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONNECT</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:tarontechnology@gmail.com">tarontechnology@gmail.com</a></li><li><a href="tel:+919130790105">+91 9130790105</a></li>
+                    <li style="color:var(--silver);margin-top:12px;font-size:11px;">MON - SAT: 10:00AM - 05:00PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 TARON TECHNOLOGY. ALL SYSTEMS OPERATIONAL.</p></div>
+    </footer>
+</div>
+<script src="js/particles.min.js"></script>
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-srdSK0ZXcsOcwq-AeuOhjDY2qb8DnPtZEIp5DkMPcrHhuVaQ3e5dWAE4-29DkTyz4g/exec';
+let allPapers = [];
+
+window.addEventListener('load', function() {
+    setTimeout(()=>{ const l=document.getElementById('loader'); l.classList.add('fade-out'); setTimeout(()=>l.style.display='none',800); },2500);
+});
+
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navMenu');
+menuToggle.addEventListener('click', function(){ this.classList.toggle('active'); navMenu.classList.toggle('active'); });
+document.querySelectorAll('.nav-menu a').forEach(a=>a.addEventListener('click',()=>{ menuToggle.classList.remove('active'); navMenu.classList.remove('active'); }));
+
+particlesJS('particles-js',{particles:{number:{value:60,density:{enable:true,value_area:800}},color:{value:"#ffffff"},shape:{type:"circle"},opacity:{value:0.4,random:true},size:{value:2,random:true},line_linked:{enable:true,distance:150,color:"#ffffff",opacity:0.3,width:1},move:{enable:true,speed:1.5,direction:"none",random:false,straight:false,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:140,line_linked:{opacity:0.5}},push:{particles_nb:3}}},retina_detect:true});
+
+async function fetchPapers() {
+    try {
+        const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
+        const data = await res.json();
+        allPapers = Array.isArray(data) ? data.filter(p => p.title) : [];
+        populateFilters();
+        renderPapers();
+    } catch(e) {
+        document.getElementById('papers-grid').innerHTML = '<div class="empty-state"><div class="e-icon">◈</div><h3>COULD NOT LOAD PAPERS</h3><p style="font-size:12px;letter-spacing:2px;margin-top:8px;">Please check your connection</p></div>';
+    }
+}
+
+function populateFilters() {
+    const cats = [...new Set(allPapers.map(p=>p.category))].filter(Boolean).sort();
+    const years = [...new Set(allPapers.map(p=>p.year))].filter(Boolean).sort((a,b)=>b-a);
+    document.getElementById('paper-cat').innerHTML = '<option value="">ALL CATEGORIES</option>' + cats.map(c=>`<option>${c}</option>`).join('');
+    document.getElementById('paper-year').innerHTML = '<option value="">ALL YEARS</option>' + years.map(y=>`<option>${y}</option>`).join('');
+}
+
+function renderPapers() {
+    let papers = [...allPapers];
+    const q = document.getElementById('paper-search').value.toLowerCase();
+    const cat = document.getElementById('paper-cat').value;
+    const yr = document.getElementById('paper-year').value;
+    const st = document.getElementById('paper-status').value;
+    if (q) papers = papers.filter(p=>(p.title+p.author+p.abstract+p.keywords).toLowerCase().includes(q));
+    if (cat) papers = papers.filter(p=>p.category===cat);
+    if (yr) papers = papers.filter(p=>String(p.year)===yr);
+    if (st) papers = papers.filter(p=>p.status===st);
+
+    document.getElementById('s-total').textContent = allPapers.length;
+    document.getElementById('s-published').textContent = allPapers.filter(p=>p.status==='Published').length;
+    document.getElementById('s-review').textContent = allPapers.filter(p=>p.status==='Under Review').length;
+    document.getElementById('s-cats').textContent = [...new Set(allPapers.map(p=>p.category))].filter(Boolean).length;
+
+    const sb = {Published:'badge-green','Under Review':'badge-amber',Draft:'badge-gray'};
+    const grid = document.getElementById('papers-grid');
+    if (!papers.length) { grid.innerHTML='<div class="empty-state"><div class="e-icon">◈</div><h3>NO PAPERS FOUND</h3><p style="font-size:12px;letter-spacing:2px;">Try different filters or add papers via Admin</p></div>'; return; }
+    grid.innerHTML = papers.map(p=>`
+        <div class="paper-card">
+            <div class="paper-meta">
+                <span class="badge badge-gold">${p.category||''}</span>
+                <span class="badge ${sb[p.status]||'badge-gray'}">${p.status||''}</span>
+                <span class="badge badge-white">${p.year||''}</span>
+            </div>
+            <div class="paper-title">${p.title}</div>
+            <div class="paper-author">// ${p.author||''}</div>
+            <div class="paper-abstract">${p.abstract||''}</div>
+            ${p.keywords?`<div class="paper-keywords">${p.keywords.split(',').map(k=>`<span class="keyword">${k.trim()}</span>`).join('')}</div>`:''}
+            <div class="paper-actions">
+                ${p.pdf?`<a href="${p.pdf}" target="_blank" class="btn-gold">&#8595; Download PDF</a>`:`<span class="btn-gold disabled">No PDF Linked</span>`}
+            </div>
+        </div>`).join('');
+}
+
+fetchPapers();
+</script>
+
+    <div class="float-contact" id="floatContact" style="position:fixed;bottom:28px;right:28px;z-index:1002;display:flex;flex-direction:column;gap:12px;align-items:flex-end;">
+        <div class="float-menu" id="floatMenu" style="display:none;flex-direction:column;gap:10px;">
+            <a href="https://wa.me/919130790105" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:11px 18px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:rgba(11,16,36,0.9);border:1px solid rgba(255,255,255,0.14);border-radius:999px;backdrop-filter:blur(18px);"><svg viewBox="0 0 24 24" width="18" height="18" style="stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg> WhatsApp</a>
+            <a href="tel:+919130790105" style="display:flex;align-items:center;gap:10px;padding:11px 18px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:rgba(11,16,36,0.9);border:1px solid rgba(255,255,255,0.14);border-radius:999px;backdrop-filter:blur(18px);"><svg viewBox="0 0 24 24" width="18" height="18" style="stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call Us</a>
+            <a href="mailto:tarontechnology@gmail.com" style="display:flex;align-items:center;gap:10px;padding:11px 18px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:rgba(11,16,36,0.9);border:1px solid rgba(255,255,255,0.14);border-radius:999px;backdrop-filter:blur(18px);"><svg viewBox="0 0 24 24" width="18" height="18" style="stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg> Email</a>
+        </div>
+        <button onclick="var m=document.getElementById('floatMenu');m.style.display=m.style.display==='flex'?'none':'flex';" aria-label="Contact options" style="width:60px;height:60px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;border-radius:50%;background:linear-gradient(135deg,#2563EB,#7c3aed);box-shadow:0 0 30px rgba(37,99,235,0.55);"><svg viewBox="0 0 24 24" width="24" height="24" style="stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></button>
+    </div>
+</body>
+</html>

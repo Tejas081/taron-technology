@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Taron Technology</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root { --void:#000000; --pearl:#ffffff; --panel:#0d0d0d; --mist:#808080; --silver:#c0c0c0; --accent:#ffffff; --gold:#FFD700; --gold-dark:#b8860b; --border:rgba(255,255,255,0.1); --danger:#ef4444; --success:#22c55e; }
+        body { font-family:'Space Mono',monospace; background:var(--void); color:var(--pearl); min-height:100vh; }
+        body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0px,transparent 1px,transparent 2px,rgba(255,255,255,0.015) 3px); pointer-events:none; z-index:9998; }
+        .login-screen { position:fixed; inset:0; background:#000; display:flex; align-items:center; justify-content:center; z-index:100; }
+        .login-screen.hidden { display:none; }
+        .login-box { text-align:center; max-width:440px; width:100%; padding:0 24px; }
+        .login-logo { width:160px; height:auto; margin-bottom:32px; filter:drop-shadow(0 0 20px rgba(184,134,11,0.5)); animation:glowPulse 3s ease-in-out infinite; }
+        @keyframes glowPulse { 0%,100%{filter:drop-shadow(0 0 20px rgba(184,134,11,0.5));} 50%{filter:drop-shadow(0 0 40px rgba(184,134,11,0.9));} }
+        .login-tag { display:inline-block; font-size:10px; letter-spacing:3px; color:var(--gold); border:1px solid var(--gold-dark); padding:4px 16px; margin-bottom:24px; text-transform:uppercase; }
+        .login-title { font-family:'Orbitron',sans-serif; font-size:clamp(18px,4vw,28px); font-weight:900; letter-spacing:4px; margin-bottom:8px; }
+        .login-sub { font-size:11px; letter-spacing:4px; color:var(--mist); margin-bottom:32px; text-transform:uppercase; }
+        .login-input { width:100%; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--pearl); padding:14px 18px; font-family:'Space Mono',monospace; font-size:14px; letter-spacing:2px; outline:none; text-align:center; transition:border 0.3s; margin-bottom:16px; }
+        .login-input:focus { border-color:var(--gold); }
+        .login-input::placeholder { color:var(--mist); }
+        .login-btn { width:100%; padding:14px; background:linear-gradient(90deg,var(--gold-dark),var(--gold)); color:var(--void); font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; letter-spacing:4px; border:none; cursor:pointer; text-transform:uppercase; }
+        .login-btn:hover { opacity:0.85; }
+        .login-err { color:var(--danger); font-size:11px; letter-spacing:2px; margin-top:12px; min-height:20px; }
+        .admin-wrapper { display:none; min-height:100vh; }
+        .admin-wrapper.visible { display:flex; }
+        .sidebar { width:260px; min-width:260px; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; height:100vh; z-index:50; overflow-y:auto; }
+        .sidebar-header { padding:28px 24px 20px; border-bottom:1px solid var(--border); }
+        .sidebar-logo { width:120px; height:auto; margin-bottom:12px; }
+        .sidebar-title { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; color:var(--mist); text-transform:uppercase; }
+        .sidebar-user { font-size:10px; letter-spacing:2px; color:var(--success); margin-top:4px; }
+        .sidebar-section { padding:20px 16px 8px; }
+        .sidebar-section-label { font-size:9px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; padding:0 8px; margin-bottom:8px; }
+        .sidebar-item { display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid transparent; color:var(--mist); font-size:11px; letter-spacing:2px; cursor:pointer; transition:all 0.2s; text-transform:uppercase; margin-bottom:2px; }
+        .sidebar-item:hover { background:rgba(255,255,255,0.04); color:var(--silver); border-color:var(--border); }
+        .sidebar-item.active { background:rgba(255,215,0,0.08); color:var(--gold); border-color:rgba(255,215,0,0.2); }
+        .sidebar-bottom { margin-top:auto; padding:20px 16px; border-top:1px solid var(--border); }
+        .sidebar-back { display:flex; align-items:center; gap:10px; color:var(--mist); font-size:10px; letter-spacing:2px; text-decoration:none; transition:color 0.2s; text-transform:uppercase; }
+        .sidebar-back:hover { color:var(--silver); }
+        .logout-btn { display:flex; align-items:center; gap:10px; color:var(--danger); font-size:10px; letter-spacing:2px; cursor:pointer; margin-top:12px; background:none; border:none; font-family:'Space Mono',monospace; text-transform:uppercase; }
+        .main { margin-left:260px; flex:1; min-height:100vh; }
+        .topbar { background:var(--panel); border-bottom:1px solid var(--border); padding:18px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:40; }
+        .topbar-title { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; letter-spacing:3px; color:var(--pearl); text-transform:uppercase; }
+        .topbar-sub { font-size:10px; letter-spacing:2px; color:var(--mist); margin-top:2px; }
+        .status-dot { width:8px; height:8px; border-radius:50%; background:var(--success); animation:blink 2s infinite; display:inline-block; margin-right:6px; }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+        .status-text { font-size:10px; letter-spacing:2px; color:var(--success); }
+        .panel { display:none; padding:32px; }
+        .panel.active { display:block; }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:2px; margin-bottom:32px; }
+        .stat-card { background:var(--panel); border:1px solid var(--border); padding:20px; }
+        .stat-card .num { font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:var(--gold); }
+        .stat-card .lbl { font-size:9px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; margin-top:4px; }
+        .form-card { background:var(--panel); border:1px solid var(--border); padding:28px; margin-bottom:24px; }
+        .form-card-title { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--pearl); text-transform:uppercase; margin-bottom:24px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .form-group { margin-bottom:16px; }
+        .form-group label { display:block; font-size:9px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; margin-bottom:8px; }
+        .form-control { width:100%; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--pearl); padding:11px 14px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:1px; outline:none; transition:border 0.3s; }
+        .form-control:focus { border-color:var(--gold); }
+        .form-control::placeholder { color:rgba(255,255,255,0.2); }
+        textarea.form-control { resize:vertical; min-height:90px; }
+        select.form-control { cursor:pointer; }
+        select.form-control option { background:#0d0d0d; }
+        .form-hint { font-size:9px; letter-spacing:1px; color:var(--mist); margin-top:5px; }
+        .btn-submit { padding:12px 28px; background:linear-gradient(90deg,var(--gold-dark),var(--gold)); color:var(--void); font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; border:none; cursor:pointer; text-transform:uppercase; transition:opacity 0.3s; }
+        .btn-submit:hover { opacity:0.85; }
+        .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
+        .btn-outline-sm { padding:6px 14px; background:transparent; border:1px solid var(--border); color:var(--silver); font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; cursor:pointer; text-transform:uppercase; }
+        .btn-danger-sm { padding:6px 12px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:var(--danger); font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; cursor:pointer; text-transform:uppercase; }
+        .btn-danger-sm:hover { background:rgba(239,68,68,0.2); }
+        .manage-table { width:100%; border-collapse:collapse; }
+        .manage-table th { font-size:9px; letter-spacing:3px; color:var(--mist); text-transform:uppercase; padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; }
+        .manage-table td { padding:12px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:11px; color:var(--silver); vertical-align:middle; }
+        .manage-table tr:hover td { background:rgba(255,255,255,0.02); }
+        .manage-table tr:last-child td { border-bottom:none; }
+        .td-title { max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--pearl); }
+        .badge { font-size:9px; letter-spacing:2px; padding:3px 10px; border:1px solid; text-transform:uppercase; }
+        .badge-gold { border-color:rgba(255,215,0,0.4); color:var(--gold); background:rgba(255,215,0,0.06); }
+        .badge-green { border-color:rgba(34,197,94,0.4); color:#4ade80; background:rgba(34,197,94,0.06); }
+        .badge-amber { border-color:rgba(251,191,36,0.4); color:#fbbf24; background:rgba(251,191,36,0.06); }
+        .badge-gray { border-color:rgba(255,255,255,0.15); color:var(--mist); background:rgba(255,255,255,0.03); }
+        .toast { position:fixed; bottom:24px; right:24px; background:var(--panel); border:1px solid var(--border); color:var(--pearl); padding:14px 22px; font-size:11px; letter-spacing:2px; z-index:9999; opacity:0; transform:translateY(10px); transition:all 0.3s; pointer-events:none; text-transform:uppercase; }
+        .toast.show { opacity:1; transform:translateY(0); }
+        .toast.success { border-color:rgba(34,197,94,0.5); color:#4ade80; }
+        .toast.error { border-color:rgba(239,68,68,0.5); color:var(--danger); }
+        .empty-state { text-align:center; padding:60px 20px; color:var(--mist); }
+        .empty-state h3 { font-family:'Orbitron',sans-serif; font-size:14px; letter-spacing:3px; color:var(--silver); }
+        .loading-row { text-align:center; padding:40px; font-size:11px; letter-spacing:3px; color:var(--gold); }
+        @media (max-width:768px) { .sidebar{width:100%;height:auto;position:relative;} .main{margin-left:0;} .admin-wrapper{flex-direction:column;} .form-row{grid-template-columns:1fr;} .panel{padding:20px 16px;} }
+    </style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <img src="images/TARON_LOGO_TRANSPARENT.png" alt="Taron Technology" class="login-logo">
+        <div class="login-tag">// Secure Access</div>
+        <div class="login-title">ADMIN PANEL</div>
+        <div class="login-sub">Taron Technology Control Centre</div>
+        <input type="password" class="login-input" id="adminPass" placeholder="ENTER ADMIN PASSWORD" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="login-btn" onclick="doLogin()">ACCESS SYSTEM &#9654;</button>
+        <div class="login-err" id="loginErr"></div>
+    </div>
+</div>
+
+<div class="admin-wrapper" id="adminWrapper">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="images/TARON Logo.png" alt="Taron" class="sidebar-logo">
+            <div class="sidebar-title">Admin Panel</div>
+            <div class="sidebar-user"><span class="status-dot"></span>ADMIN ONLINE</div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-label">Overview</div>
+            <div class="sidebar-item active" onclick="switchPanel('dashboard')" id="snav-dashboard">&#11041; Dashboard</div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-label">Research Papers</div>
+            <div class="sidebar-item" onclick="switchPanel('add-paper')" id="snav-add-paper">+ Add Paper</div>
+            <div class="sidebar-item" onclick="switchPanel('manage-papers')" id="snav-manage-papers">&#9672; Manage Papers</div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-label">Projects</div>
+            <div class="sidebar-item" onclick="switchPanel('add-project')" id="snav-add-project">+ Add Project</div>
+            <div class="sidebar-item" onclick="switchPanel('manage-projects')" id="snav-manage-projects">&#9672; Manage Projects</div>
+        </div>
+        <div class="sidebar-bottom">
+            <a href="index.html" class="sidebar-back">&#8592; Back to Website</a>
+            <button class="logout-btn" onclick="doLogout()">&#9167; Logout</button>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title" id="topbar-title">Dashboard</div>
+                <div class="topbar-sub">Connected to Google Sheets &bull; Live Sync</div>
+            </div>
+            <div><span class="status-dot"></span><span class="status-text">Live Sync Active</span></div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="panel active" id="panel-dashboard">
+            <div class="stats-grid" id="dash-stats">
+                <div class="stat-card"><div class="num">—</div><div class="lbl">Loading...</div></div>
+            </div>
+            <div class="form-card">
+                <div class="form-card-title">Quick Actions</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn-submit" onclick="switchPanel('add-paper')">+ Add Research Paper</button>
+                    <button class="btn-submit" onclick="switchPanel('add-project')">+ Add Project</button>
+                </div>
+                <div style="margin-top:20px;padding:16px;border:1px solid rgba(255,215,0,0.2);background:rgba(255,215,0,0.04);">
+                    <p style="font-size:10px;letter-spacing:2px;color:var(--gold);">&#9888; GOOGLE SHEETS CONNECTED</p>
+                    <p style="font-size:11px;color:var(--mist);margin-top:6px;line-height:1.8;">Papers added here sync automatically to <strong style="color:var(--silver);">research.html</strong> on all devices worldwide. No need to redeploy!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD PAPER -->
+        <div class="panel" id="panel-add-paper">
+            <div class="form-card">
+                <div class="form-card-title">Add Research Paper &rarr; Saves to Google Sheets</div>
+                <div class="form-row">
+                    <div class="form-group"><label>Paper Title *</label><input type="text" class="form-control" id="p-title" placeholder="Full title of the paper"></div>
+                    <div class="form-group"><label>Author(s) *</label><input type="text" class="form-control" id="p-author" placeholder="e.g. John Doe, Jane Smith"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Category / Domain *</label><input type="text" class="form-control" id="p-category" placeholder="e.g. Machine Learning, IoT, Blockchain"></div>
+                    <div class="form-group"><label>Publication Year *</label><input type="number" class="form-control" id="p-year" placeholder="2024" min="2000" max="2099"></div>
+                </div>
+                <div class="form-group"><label>Abstract / Summary *</label><textarea class="form-control" id="p-abstract" placeholder="Brief description of the research and findings..."></textarea></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>PDF Link (Google Drive)</label>
+                        <input type="url" class="form-control" id="p-pdf" placeholder="https://drive.google.com/file/...">
+                        <div class="form-hint">Paste your Google Drive share link here</div>
+                    </div>
+                    <div class="form-group"><label>Status</label><select class="form-control" id="p-status"><option value="Published">Published</option><option value="Under Review">Under Review</option><option value="Draft">Draft</option></select></div>
+                </div>
+                <div class="form-group"><label>Keywords (comma separated)</label><input type="text" class="form-control" id="p-keywords" placeholder="AI, Neural Networks, Deep Learning"></div>
+                <button class="btn-submit" id="save-paper-btn" onclick="savePaper()">+ PUBLISH TO GOOGLE SHEETS</button>
+            </div>
+        </div>
+
+        <!-- MANAGE PAPERS -->
+        <div class="panel" id="panel-manage-papers">
+            <div class="form-card">
+                <div class="form-card-title">Manage Research Papers (Live from Google Sheets)</div>
+                <div id="papers-table-wrap"><div class="loading-row">LOADING FROM GOOGLE SHEETS...</div></div>
+            </div>
+        </div>
+
+        <!-- ADD PROJECT -->
+        <div class="panel" id="panel-add-project">
+            <div class="form-card">
+                <div class="form-card-title">Add Completed Project (Saved Locally)</div>
+                <div class="form-row">
+                    <div class="form-group"><label>Project Name *</label><input type="text" class="form-control" id="pr-title" placeholder="e.g. Sales CRM for ABC Corp"></div>
+                    <div class="form-group"><label>Project Type *</label><select class="form-control" id="pr-category"><option value="CRM">CRM</option><option value="ERP">ERP</option><option value="Website">Website</option><option value="Mobile App">Mobile App</option><option value="Other">Other</option></select></div>
+                </div>
+                <div class="form-group"><label>Project Description *</label><textarea class="form-control" id="pr-desc" placeholder="Describe what was built, key features, business impact..."></textarea></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Client / Company</label><input type="text" class="form-control" id="pr-client" placeholder="Client or company name"></div>
+                    <div class="form-group"><label>Completion Year</label><input type="number" class="form-control" id="pr-year" placeholder="2024" min="2000" max="2099"></div>
+                </div>
+                <div class="form-group"><label>Technologies Used (comma separated)</label><input type="text" class="form-control" id="pr-tech" placeholder="React, Node.js, PostgreSQL, Docker"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Project Image URL</label><input type="url" class="form-control" id="pr-image" placeholder="https://... (leave blank for auto)"></div>
+                    <div class="form-group"><label>Live URL / Demo Link</label><input type="url" class="form-control" id="pr-url" placeholder="https://..."></div>
+                </div>
+                <button class="btn-submit" onclick="saveProject()">+ PUBLISH PROJECT</button>
+            </div>
+        </div>
+
+        <!-- MANAGE PROJECTS -->
+        <div class="panel" id="panel-manage-projects">
+            <div class="form-card">
+                <div class="form-card-title">Manage Projects</div>
+                <div id="projects-table-wrap"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASS = 'taron@admin';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-srdSK0ZXcsOcwq-AeuOhjDY2qb8DnPtZEIp5DkMPcrHhuVaQ3e5dWAE4-29DkTyz4g/exec';
+const PROJECTS_KEY = 'taron_projects';
+
+function doLogin() {
+    const pw = document.getElementById('adminPass').value;
+    if (pw === ADMIN_PASS) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminWrapper').classList.add('visible');
+        loadDashboard();
+    } else {
+        document.getElementById('loginErr').textContent = 'INVALID PASSWORD. ACCESS DENIED.';
+        document.getElementById('adminPass').value = '';
+        setTimeout(()=>document.getElementById('loginErr').textContent='', 3000);
+    }
+}
+
+function doLogout() {
+    document.getElementById('adminWrapper').classList.remove('visible');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('adminPass').value = '';
+}
+
+const panelTitles = { dashboard:'Dashboard', 'add-paper':'Add Research Paper', 'manage-papers':'Manage Papers', 'add-project':'Add Project', 'manage-projects':'Manage Projects' };
+function switchPanel(name) {
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
+    const nav = document.getElementById('snav-'+name);
+    if(nav) nav.classList.add('active');
+    document.getElementById('topbar-title').textContent = panelTitles[name]||name;
+    if(name==='manage-papers') loadManagePapers();
+    if(name==='manage-projects') renderManageProjects();
+    if(name==='dashboard') loadDashboard();
+}
+
+// ── GOOGLE SHEETS ─────────────────────────────────────────────────────────────
+async function fetchPapersFromSheets() {
+    const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
+    return await res.json();
+}
+
+async function loadDashboard() {
+    try {
+        const papers = await fetchPapersFromSheets();
+        const projects = getProjects();
+        document.getElementById('dash-stats').innerHTML = [
+            {num:papers.filter(p=>p.title).length, lbl:'Total Papers'},
+            {num:papers.filter(p=>p.status==='Published').length, lbl:'Published'},
+            {num:papers.filter(p=>p.status==='Under Review').length, lbl:'Under Review'},
+            {num:projects.length, lbl:'Total Projects'},
+        ].map(s=>`<div class="stat-card"><div class="num">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');
+    } catch(e) {
+        document.getElementById('dash-stats').innerHTML = '<div class="stat-card"><div class="num">!</div><div class="lbl">Connection Error</div></div>';
+    }
+}
+
+async function savePaper() {
+    const title = document.getElementById('p-title').value.trim();
+    const author = document.getElementById('p-author').value.trim();
+    const category = document.getElementById('p-category').value.trim();
+    const year = document.getElementById('p-year').value.trim();
+    const abstract = document.getElementById('p-abstract').value.trim();
+    if (!title||!author||!category||!year||!abstract) { toast('Fill all required fields.','error'); return; }
+
+    const btn = document.getElementById('save-paper-btn');
+    btn.disabled = true; btn.textContent = 'SAVING TO SHEETS...';
+
+    const paper = {
+        action: 'add',
+        id: Date.now(),
+        title, author, category, year,
+        abstract,
+        pdf: document.getElementById('p-pdf').value.trim(),
+        status: document.getElementById('p-status').value,
+        keywords: document.getElementById('p-keywords').value.trim()
+    };
+
+    try {
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(paper)
+        });
+        ['p-title','p-author','p-category','p-year','p-abstract','p-pdf','p-keywords'].forEach(id=>document.getElementById(id).value='');
+        document.getElementById('p-status').value='Published';
+        toast('Paper saved to Google Sheets! Live on all devices.','success');
+    } catch(e) {
+        toast('Error saving. Check connection.','error');
+    }
+    btn.disabled = false; btn.textContent = '+ PUBLISH TO GOOGLE SHEETS';
+}
+
+async function loadManagePapers() {
+    const wrap = document.getElementById('papers-table-wrap');
+    wrap.innerHTML = '<div class="loading-row">LOADING FROM GOOGLE SHEETS...</div>';
+    try {
+        const papers = await fetchPapersFromSheets();
+        const valid = papers.filter(p=>p.title);
+        if (!valid.length) { wrap.innerHTML='<div class="empty-state"><h3>NO PAPERS YET</h3></div>'; return; }
+        const sb = {Published:'badge-green','Under Review':'badge-amber',Draft:'badge-gray'};
+        wrap.innerHTML = `<table class="manage-table"><thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Status</th><th>PDF</th><th>Action</th></tr></thead><tbody>
+        ${valid.map(p=>`<tr>
+            <td class="td-title" title="${p.title}">${p.title}</td>
+            <td>${p.author||''}</td>
+            <td><span class="badge badge-gold">${p.category||''}</span></td>
+            <td>${p.year||''}</td>
+            <td><span class="badge ${sb[p.status]||'badge-gray'}">${p.status||''}</span></td>
+            <td>${p.pdf?`<a href="${p.pdf}" target="_blank" style="color:var(--gold);text-decoration:none;font-size:10px;">PDF</a>`:'<span style="color:var(--mist);font-size:10px;">None</span>'}</td>
+            <td><button class="btn-danger-sm" onclick="deletePaper('${p.id}')">Delete</button></td>
+        </tr>`).join('')}
+        </tbody></table>`;
+    } catch(e) {
+        wrap.innerHTML = '<div class="empty-state"><h3>CONNECTION ERROR</h3></div>';
+    }
+}
+
+async function deletePaper(id) {
+    if (!confirm('Delete this paper from Google Sheets?')) return;
+    try {
+        await fetch(SCRIPT_URL, {
+            method:'POST', mode:'no-cors',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({action:'delete', id: String(id)})
+        });
+        toast('Paper deleted!','success');
+        setTimeout(()=>loadManagePapers(), 1500);
+    } catch(e) { toast('Error deleting.','error'); }
+}
+
+// ── PROJECTS (localStorage) ───────────────────────────────────────────────────
+function getProjects() { try{ return JSON.parse(localStorage.getItem(PROJECTS_KEY))||[]; }catch{ return []; } }
+function setProjects(d) { localStorage.setItem(PROJECTS_KEY, JSON.stringify(d)); }
+
+function saveProject() {
+    const title = document.getElementById('pr-title').value.trim();
+    const desc = document.getElementById('pr-desc').value.trim();
+    if (!title||!desc) { toast('Fill all required fields.','error'); return; }
+    const projects = getProjects();
+    projects.unshift({id:Date.now(),title,category:document.getElementById('pr-category').value,client:document.getElementById('pr-client').value.trim(),year:parseInt(document.getElementById('pr-year').value)||new Date().getFullYear(),desc,tech:document.getElementById('pr-tech').value.trim(),image:document.getElementById('pr-image').value.trim(),url:document.getElementById('pr-url').value.trim()});
+    setProjects(projects);
+    ['pr-title','pr-client','pr-year','pr-desc','pr-tech','pr-image','pr-url'].forEach(id=>document.getElementById(id).value='');
+    toast('Project saved!','success');
+}
+
+function renderManageProjects() {
+    const projects = getProjects();
+    const wrap = document.getElementById('projects-table-wrap');
+    if (!projects.length) { wrap.innerHTML='<div class="empty-state"><h3>NO PROJECTS YET</h3></div>'; return; }
+    wrap.innerHTML = `<table class="manage-table"><thead><tr><th>Project</th><th>Type</th><th>Client</th><th>Year</th><th>Action</th></tr></thead><tbody>
+    ${projects.map(p=>`<tr>
+        <td class="td-title">${p.title}</td>
+        <td><span class="badge badge-gold">${p.category}</span></td>
+        <td style="color:var(--mist)">${p.client||'&mdash;'}</td>
+        <td>${p.year}</td>
+        <td><button class="btn-danger-sm" onclick="deleteProject(${p.id})">Delete</button></td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function deleteProject(id) {
+    if (!confirm('Delete this project?')) return;
+    setProjects(getProjects().filter(p=>p.id!==id));
+    renderManageProjects();
+    toast('Project deleted.','success');
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg,type='') {
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.className='toast show '+type;
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+document.getElementById('adminPass').focus();
+</script>
+</body>
+</html>
